@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import HealthBar from "../hud/HealthBar.js";
 import initAnimations from './anims/playerAnims.js';
 
 import collidable from "../mixins/collidable.js";
@@ -28,6 +29,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.offsetX = 6;
         this.offsetY = 5;
         this.cursors = this.scene.input.keyboard.createCursorKeys();
+
+        this.health = 100;
+
+        this.hp = new HealthBar(this.scene, 0, 0, this.health);
 
         this.setSize(this.width - this.offsetX * 2, this.height - this.offsetY);
         this.setOffset(this.offsetX, this.offsetY);
