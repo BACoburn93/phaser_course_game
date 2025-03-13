@@ -13,8 +13,8 @@ class HealthBar {
         this.value = health;
 
         this.size = {
-            width: 100 / SHARED_CONFIG.zoomFactor,
-            height: 12 / SHARED_CONFIG.zoomFactor,
+            width: 200 / SHARED_CONFIG.zoomFactor,
+            height: 20 / SHARED_CONFIG.zoomFactor,
         }
 
         this.pixelPerHealth = this.size.width / this.value;
@@ -32,7 +32,7 @@ class HealthBar {
         this.bar.clear();
         const { width, height } = this.size;
 
-        const margin = 2;
+        const margin = 2 / SHARED_CONFIG.zoomFactor;
 
         this.bar.fillStyle(0x9B00FF);
         this.bar.fillRect(x, y, width + margin, height + margin);
@@ -42,7 +42,16 @@ class HealthBar {
 
         const healthWidth = Math.floor(this.value * this.pixelPerHealth);
 
-        this.bar.fillStyle(0x00FF00);
+        switch(healthWidth > 0) {
+            case healthWidth <= this.size.width / 4:
+                this.bar.fillStyle(0xFF0000);
+                break;
+            case healthWidth <= this.size.width / 2:
+                this.bar.fillStyle(0xFFFF00);
+                break;
+            default:
+                this.bar.fillStyle(0x00FF00);
+        }
 
         if(healthWidth > 0) {
             this.bar.fillRect(x + margin, y + margin, healthWidth - margin, height - margin);

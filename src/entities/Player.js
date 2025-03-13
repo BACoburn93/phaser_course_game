@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import HealthBar from "../hud/HealthBar.js";
 import initAnimations from './anims/playerAnims.js';
+import Projectile from "../abilities/Projectile.js";
 
 import { SHARED_CONFIG } from "../globals/sharedConfig.js";
 
@@ -48,6 +49,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.setOrigin(0.5, 1);
 
         initAnimations(this.scene.anims, this.playerSpeed);
+
+        this.scene.input.keyboard.on('keydown-Q', () => {
+            const projectile = new Projectile(this.scene, this.x, this.y, 'iceball');
+            projectile.fire();
+        })
     }
 
     initEvents() {
