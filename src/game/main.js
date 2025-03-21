@@ -38,7 +38,7 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 },
+            gravity: { y: 0 },
             debug: SHARED_CONFIG.debug
         }
     }

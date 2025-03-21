@@ -21,4 +21,11 @@ export default (anims, playerSpeed) => {
         frameRate: Math.floor(playerSpeed / 25),
         repeat: 0
     });
+
+    anims.create({
+        key: 'throw',
+        frames: anims.generateFrameNumbers('player-throw', {start: 0, end: 7}),
+        frameRate: Math.floor(playerSpeed / 20),
+        repeat: 0
+    });
 }
