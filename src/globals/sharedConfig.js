@@ -8,7 +8,7 @@ export const SHARED_CONFIG = {
     width: MAP_WIDTH < WIDTH ? MAP_WIDTH : WIDTH,
     height: HEIGHT,
     zoomFactor: ZOOM_FACTOR,
-    debug: false,
+    debug: true,
     topLeftCorner: {
         x: ((WIDTH - (WIDTH / ZOOM_FACTOR)) / 2.35),
         y: ((HEIGHT - (HEIGHT / ZOOM_FACTOR)) / 1.98),

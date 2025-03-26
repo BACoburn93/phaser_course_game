@@ -25,7 +25,9 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.currentPatrolDistance = 0;
         this.maxPatrolDistance = 300;
 
+        this.health = 40;
         this.damage = 20;
+
         this.offsetX = 5;
         this.offsetY = 22;
         this.timeFromPrevTurn = 0;
@@ -73,6 +75,16 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     setPlatformColliders(platformCollidersLayer) {
         this.platformCollidersLayer = platformCollidersLayer;
+    }
+
+    takesHit(source) {
+        this.health -= source.damage;
+
+        source.deliversHit(this);
+        
+        if(this.health <= 0) {
+            console.log("Enemy Terminated");
+        }
     }
 }
 

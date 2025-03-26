@@ -107,8 +107,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.jumpCount = 0;
         }
 
-        console.log(this.anims);
-
         if(this.isPlayingAnims('throw')) {
             return;
         }
