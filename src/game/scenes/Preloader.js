@@ -51,6 +51,10 @@ export class Preloader extends Scene
             frameWidth: 32, frameHeight: 64, spacing: 32
         });
 
+        this.load.spritesheet('hit-sheet', 'weapons/hit_effect_sheet.png', {
+            frameWidth: 32, frameHeight: 32
+        });
+
 
         
         // Default Phaser App Asset Loaders

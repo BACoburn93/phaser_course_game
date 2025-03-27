@@ -5,6 +5,8 @@ import Enemies from "../../groups/Enemies";
 // Birdman
 import { SHARED_CONFIG } from "../../globals/sharedConfig";
 
+import initAnims from "../../anims";
+
 export class Play extends Phaser.Scene {
 
     constructor() {
@@ -40,6 +42,7 @@ export class Play extends Phaser.Scene {
 
         this.createEndOfLevel(playerZones.end, player);
         this.setupFollowupCameraOn(player);
+        initAnims(this.anims);
 
         this.plotting = false;
 
