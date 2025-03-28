@@ -12,6 +12,9 @@ class Birdman extends Enemy {
 
     update(time, delta) {   
         super.update(time, delta);
+        
+        if(!this.active) return;
+
         const onFloor = this.body.onFloor();
 
         // this.setVelocityX(this.speed);

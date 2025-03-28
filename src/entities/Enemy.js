@@ -27,7 +27,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.currentPatrolDistance = 0;
         this.maxPatrolDistance = 300;
 
-        this.health = 40;
+        this.health = 20;
         this.damage = 20;
 
         this.offsetX = 5;
@@ -50,6 +50,14 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     update(time, delta) {
+        if(this.getBounds().bottom > 600) {
+            this.scene.events.removeListener(Phaser.Scenes.Events.UPDATE, this.update, this);
+            this.setActive(false);
+            this.rayGraphics.clear();
+            this.destroy();
+            return;
+        }
+
         this.patrol(time);
     }
 
@@ -84,7 +92,10 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.health -= source.damage;
         
         if(this.health <= 0) {
-            console.log("Enemy Terminated");
+            this.setTint(0xff0000);
+            this.setVelocity(0, -200);
+            this.body.checkCollision.none = true;
+            this.setCollideWorldBounds(false);
         }
     }
 }
