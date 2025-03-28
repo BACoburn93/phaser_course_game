@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 
 import collidable from "../mixins/collidable.js";
+import anims from '../mixins/anims.js';
 
 class Enemy extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, key) {
@@ -12,6 +13,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         // Mixins
         Object.assign(this, collidable);
+        Object.assign(this, anims);
 
         // Initialize methods
         this.init();
@@ -78,9 +80,8 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     takesHit(source) {
-        this.health -= source.damage;
-
         source.deliversHit(this);
+        this.health -= source.damage;
         
         if(this.health <= 0) {
             console.log("Enemy Terminated");

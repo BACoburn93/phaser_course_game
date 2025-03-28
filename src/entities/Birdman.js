@@ -15,7 +15,12 @@ class Birdman extends Enemy {
         const onFloor = this.body.onFloor();
 
         // this.setVelocityX(this.speed);
-        onFloor && this.play('birdman-idle', true);
+        onFloor && !this.isPlayingAnims('birdman-hurt') && this.play('birdman-idle', true);
+    }
+
+    takesHit(source) {
+        super.takesHit(source);
+        this.play('birdman-hurt', true);
     }
 }
 
