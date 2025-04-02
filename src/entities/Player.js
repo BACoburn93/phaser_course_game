@@ -3,6 +3,7 @@ import HealthBar from "../hud/HealthBar.js";
 import initAnimations from './anims/playerAnims.js';
 import anims from '../mixins/anims.js';
 import Projectiles from "../abilities/Projectiles.js";
+import MeleeWeapon from '../abilities/MeleeWeapon.js';
 
 import { SHARED_CONFIG } from "../globals/sharedConfig.js";
 
@@ -37,6 +38,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.lastDirection = Phaser.Physics.Arcade.FACING_RIGHT;
         this.projectiles = new Projectiles(this.scene);
+        this.meleeWeapon = new MeleeWeapon(this.scene, 0, 0, "sword-attack");
 
         this.health = 100;
 
@@ -56,9 +58,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         initAnimations(this.scene.anims, this.playerSpeed);
 
         this.scene.input.keyboard.on('keydown-Q', () => {
-            // const projectile = new Projectile(this.scene, this.x, this.y, 'iceball');
             this.play('throw', true);
             this.projectiles.fireProjectile(this);
+        })
+
+        this.scene.input.keyboard.on('keydown-E', () => {
+            this.play('throw', true);
+            this.meleeWeapon.swing(this);
         })
     }
 
