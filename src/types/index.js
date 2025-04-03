@@ -1,11 +1,7 @@
 import Birdman from "../entities/Birdman";
+import Snaky from "../entities/Snaky";
 
 export const ENEMY_TYPES = {
-    Birdman
+    Birdman,
+    Snaky,
 }
-
-// export const getEnemyTypes = () => {
-//     return {
-//         Birdman
-//     }
-// }

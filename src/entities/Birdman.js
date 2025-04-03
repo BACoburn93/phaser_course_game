@@ -10,6 +10,13 @@ class Birdman extends Enemy {
         initAnims(scene.anims, this.speed);
     }
 
+    init() {
+        super.init();
+        this.speed = 50;
+        this.setSize(this.width - this.offsetX * 2, this.height - this.offsetY);
+        this.setOffset(this.offsetX, this.offsetY);
+    }
+
     update(time, delta) {   
         super.update(time, delta);
         
