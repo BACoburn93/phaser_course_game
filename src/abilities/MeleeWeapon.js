@@ -11,15 +11,26 @@ class MeleeWeapon extends Phaser.Physics.Arcade.Sprite {
         this.damage = 15;
         this.attackSpeed = 1000;
         this.weaponName = weaponName;
+        this.weaponAnim = weaponName + '-swing';
         this.wielder = null;
 
+        this.setOrigin(0.25, 1);
+
         this.activateWeapon(false);
+
+        this.on('animationcomplete', animation => {
+            if(animation.key === this.weaponAnim) {
+                this.activateWeapon(false);
+                this.body.reset(0, 0);
+            }
+        })
     }
 
     swing(wielder) {
         this.wielder = wielder;
         this.activateWeapon(true);
         this.body.reset(wielder.x, wielder.y);
+        this.anims.play(this.weaponAnim, true);
     }
 
     activateWeapon(isActive) {
