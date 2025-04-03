@@ -4,6 +4,7 @@ import initAnimations from './anims/playerAnims.js';
 import anims from '../mixins/anims.js';
 import Projectiles from "../abilities/Projectiles.js";
 import MeleeWeapon from '../abilities/MeleeWeapon.js';
+import { getTimestamp } from "../utils/functions";
 
 import { SHARED_CONFIG } from "../globals/sharedConfig.js";
 
@@ -39,6 +40,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.lastDirection = Phaser.Physics.Arcade.FACING_RIGHT;
         this.projectiles = new Projectiles(this.scene);
         this.meleeWeapon = new MeleeWeapon(this.scene, 0, 0, "sword-default");
+        this.timeFromLastSwing = null;
 
         this.health = 100;
 
@@ -63,8 +65,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         })
 
         this.scene.input.keyboard.on('keydown-E', () => {
+
+            if(this.timeFromLastSwing &&
+                this.timeFromLastSwing + this.meleeWeapon.attackSpeed > getTimestamp()) {
+                return;
+            }
+
             this.play('throw', true);
             this.meleeWeapon.swing(this);
+            this.timeFromLastSwing = getTimestamp();
         })
     }
 
