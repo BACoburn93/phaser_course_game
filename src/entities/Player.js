@@ -32,6 +32,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.jumpCount = 0;
         this.consecutiveJumps = 1;
         this.hasBeenHit = false;
+        this.isProne = false;
         this.bounceVelocity = 250;
         this.offsetX = 6;
         this.offsetY = 5;
@@ -59,22 +60,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         initAnimations(this.scene.anims, this.playerSpeed);
 
-        this.scene.input.keyboard.on('keydown-Q', () => {
-            this.play('throw', true);
-            this.projectiles.fireProjectile(this, 'iceball');
-        })
-
-        this.scene.input.keyboard.on('keydown-E', () => {
-
-            if(this.timeFromLastSwing &&
-                this.timeFromLastSwing + this.meleeWeapon.attackSpeed > getTimestamp()) {
-                return;
-            }
-
-            this.play('throw', true);
-            this.meleeWeapon.swing(this);
-            this.timeFromLastSwing = getTimestamp();
-        })
+        this.handleAttacks();
+        this.handleMovements();
     }
 
     initEvents() {
@@ -82,8 +69,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
-        if(this.hasBeenHit) { return };
-        const { left, right, up, space } = this.cursors;
+        if(this.hasBeenHit || this.isProne) { return };
+
+        const { left, right, up, down, space } = this.cursors;
 
         const isArrOfKeysJustDown = (arrOfKeydowns) => {
             let isPressingDown = false;
@@ -100,6 +88,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         const isJumpKeyDown = isArrOfKeysJustDown([space, up]);
 
         const onFloor = this.body.onFloor();
+
 
         if(left.isDown) {
             this.lastDirection = Phaser.Physics.Arcade.FACING_LEFT;
@@ -122,7 +111,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.jumpCount = 0;
         }
 
-        if(this.isPlayingAnims('throw')) {
+        if(this.isPlayingAnims('throw') || this.isPlayingAnims('prone')) {
             return;
         }
 
@@ -136,6 +125,44 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             (
                 this.play('jump', true)
             )
+    }
+
+    handleAttacks() {
+        this.scene.input.keyboard.on('keydown-Q', () => {
+            this.play('throw', true);
+            this.projectiles.fireProjectile(this, 'iceball');
+        })
+
+        this.scene.input.keyboard.on('keydown-E', () => {
+
+            if(this.timeFromLastSwing &&
+                this.timeFromLastSwing + this.meleeWeapon.attackSpeed > getTimestamp()) {
+                return;
+            }
+
+            this.play('throw', true);
+            this.meleeWeapon.swing(this);
+            this.timeFromLastSwing = getTimestamp();
+        })
+    }
+
+    handleMovements() {
+        this.scene.input.keyboard.on('keydown-DOWN', () => {
+            if(!this.body.onFloor()) { return };
+
+            this.body.setSize(this.width, this.height / 2);
+            this.setOffset(0, this.height / 2);
+            this.setVelocityX(0);
+            this.play('prone', true);
+            this.isProne = true;
+        })
+        
+        this.scene.input.keyboard.on('keyup-DOWN', () => {
+            this.body.setSize(this.width, 38);
+            this.setOffset(0, 0);
+            this.isProne = false;
+        })
+
     }
 
     playDamageTween() {
@@ -158,28 +185,21 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             }, 0)
     }
 
-    takesHit(initiator) {
+    takesHit(source) {
         if(this.hasBeenHit) { return; }
         this.hasBeenHit = true;
         this.bounceOff();
         const hitAnim = this.playDamageTween();
 
-        this.health -= initiator.damage;
+        this.health -= source.damage;
         this.hp.decrease(20);
+        source.deliversHit && source.deliversHit(this);
 
         this.scene.time.delayedCall(1000, () => {
             this.hasBeenHit = false
             hitAnim.stop();
             this.clearTint();
         });
-
-        // this.scene.time.addEvent({
-        //     delay: 1000,
-        //     callback: () => {
-        //         this.hasBeenHit = false;
-        //     },
-        //     loop: false
-        // })
     }
 
 }

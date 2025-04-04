@@ -44,8 +44,11 @@ export class Preloader extends Scene
         this.load.image('fireball-2', 'weapons/improved_fireball_002.png');
         this.load.image('fireball-3', 'weapons/improved_fireball_003.png');
         
-        // this.load.image('player', 'player/movements/idle01.png');
         this.load.spritesheet('player', 'player/move_sprite_1.png', {
+            frameWidth: 32, frameHeight: 38, spacing: 32
+        });
+
+        this.load.spritesheet('player-prone', 'player/slide_sheet_2.png', {
             frameWidth: 32, frameHeight: 38, spacing: 32
         });
 

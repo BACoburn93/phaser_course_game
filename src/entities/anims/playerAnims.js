@@ -28,4 +28,11 @@ export default (anims, playerSpeed) => {
         frameRate: Math.floor(playerSpeed / 10),
         repeat: 0
     });
+
+    anims.create({
+        key: 'prone',
+        frames: anims.generateFrameNumbers('player-prone', {start: 0, end: 2}),
+        frameRate: Math.floor(playerSpeed / 10),
+        repeat: 0
+    });
 }
