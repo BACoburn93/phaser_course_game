@@ -2,7 +2,8 @@ import Phaser from "phaser";
 
 import Player from "../../entities/Player";
 import Enemies from "../../groups/Enemies";
-// Birdman
+import Collectable from "../../collectables/collectable";
+
 import { SHARED_CONFIG } from "../../globals/sharedConfig";
 
 import initAnims from "../../anims";
@@ -96,7 +97,9 @@ export class Play extends Phaser.Scene {
         const collectables = this.physics.add.group();
 
         collectableLayer.objects.forEach((collectableObj) => {
-            collectables.get(collectableObj.x, collectableObj.y, 'diamond').setDepth(-1);
+            const collectable = new Collectable(this, collectableObj.x, collectableObj.y, 'diamond');
+            collectables.add(collectable);
+            collectable.setDepth(-1);
         });
 
         collectables.playAnimation('diamond-shine');
@@ -127,6 +130,8 @@ export class Play extends Phaser.Scene {
         // disableGameObject -> deactivates object - default: false
         // hideGameObject -> Hide game object. Default: false
         collectable.disableBody(true, true);
+
+        console.log(collectable);
     }
 
     createEnemyColliders(enemies, { colliders }) {
