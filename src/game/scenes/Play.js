@@ -21,6 +21,9 @@ export class Play extends Phaser.Scene {
         this.cameras.main.setBackgroundColor('000');
         
         const map = this.createMap();
+
+        initAnims(this.anims);
+
         const layers = this.createLayers(map);
         const playerZones = this.getPlayerZones(layers.playerZones);
         const player = this.createPlayer(playerZones.start);
@@ -45,7 +48,6 @@ export class Play extends Phaser.Scene {
 
         this.createEndOfLevel(playerZones.end, player);
         this.setupFollowupCameraOn(player);
-        initAnims(this.anims);
 
         this.plotting = false;
 
@@ -73,8 +75,6 @@ export class Play extends Phaser.Scene {
         const playerZones = map.getObjectLayer('player_zones');
         const enemySpawns = map.getObjectLayer('enemy_spawns');
         const collectables = map.getObjectLayer('collectables');
-
-        console.log(collectables);
     
         // platformsColliders.setCollisionByExclusion(-1, true);
 
@@ -98,6 +98,8 @@ export class Play extends Phaser.Scene {
         collectableLayer.objects.forEach((collectableObj) => {
             collectables.get(collectableObj.x, collectableObj.y, 'diamond').setDepth(-1);
         });
+
+        collectables.playAnimation('diamond-shine');
 
         return collectables;
     }
