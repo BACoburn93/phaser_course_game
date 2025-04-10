@@ -5,6 +5,7 @@ import anims from '../mixins/anims.js';
 import Projectiles from "../abilities/Projectiles.js";
 import MeleeWeapon from '../abilities/MeleeWeapon.js';
 import { getTimestamp } from "../utils/functions";
+import EventEmitter from "../events/Emitter.js";
 
 import { SHARED_CONFIG } from "../globals/sharedConfig.js";
 
@@ -199,16 +200,25 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     takesHit(source) {
+        if(this.hasBeenHit) { return; }
+
         const sourceDamage = source.damage || source.properties.damage || 0;
 
-        if(this.hasBeenHit) { return; }
+        this.health -= sourceDamage;
+        if(this.health <= 0) {
+            EventEmitter.emit('PLAYER_LOSE');
+            return;
+        }
+
         this.hasBeenHit = true;
         this.bounceOff(source);
         const hitAnim = this.playDamageTween();
 
-        this.health -= sourceDamage;
         this.hp.decrease(sourceDamage);
+
         source.deliversHit && source.deliversHit(this);
+
+
 
         this.scene.time.delayedCall(1000, () => {
             this.hasBeenHit = false

@@ -4,6 +4,7 @@ import Player from "../../entities/Player";
 import Enemies from "../../groups/Enemies";
 import Collectables from "../../groups/Collectables";
 import Hud from "../../hud";
+import EventEmitter from "../../events/Emitter.js"
 
 import { SHARED_CONFIG } from "../../globals/sharedConfig";
 
@@ -52,6 +53,7 @@ export class Play extends Phaser.Scene {
             }
         });
 
+        this.createGameEvents();
         this.createEndOfLevel(playerZones.end, player);
         this.setupFollowupCameraOn(player);
 
@@ -99,6 +101,12 @@ export class Play extends Phaser.Scene {
             collectables, 
             traps, 
         };
+    }
+
+    createGameEvents() {
+        EventEmitter.on('PLAYER_LOSE', () => {
+            alert("Player has lost the game!")
+        })
     }
 
     createCollectables(collectableLayer) {
