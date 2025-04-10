@@ -2,8 +2,8 @@ import Phaser from "phaser";
 
 import Player from "../../entities/Player";
 import Enemies from "../../groups/Enemies";
-import Collectable from "../../collectables/Collectable";
 import Collectables from "../../groups/Collectables";
+import Hud from "../../hud";
 
 import { SHARED_CONFIG } from "../../globals/sharedConfig";
 
@@ -22,6 +22,8 @@ export class Play extends Phaser.Scene {
     create() {
         this.cameras.main.setBackgroundColor('000');
         
+        this.score = 0;
+
         const map = this.createMap();
 
         initAnims(this.anims);
@@ -32,6 +34,8 @@ export class Play extends Phaser.Scene {
         const collectables = this.createCollectables(layers.collectables);
 
         const enemies = this.createEnemies(layers.enemySpawns, layers.platformsColliders);
+
+        new Hud(this, 0, 0);
 
         this.createEnemyColliders(enemies, {
             colliders: {
@@ -111,7 +115,7 @@ export class Play extends Phaser.Scene {
         player
             .addCollider(colliders.platformsColliders)
             .addCollider(colliders.projectiles, this.onWeaponHit)
-            .addCollider(colliders.collectables, this.onCollect)
+            .addCollider(colliders.collectables, this.onCollect, this)
     }
 
     onPlayerCollision(enemy, player) {
@@ -126,8 +130,9 @@ export class Play extends Phaser.Scene {
         // disableGameObject -> deactivates object - default: false
         // hideGameObject -> Hide game object. Default: false
         collectable.disableBody(true, true);
+        this.score += collectable.score;
 
-        console.log(collectable);
+        console.log(this.score);
     }
 
     createEnemyColliders(enemies, { colliders }) {

@@ -1,13 +1,13 @@
 
 
 export default {
-    addCollider(collider, callback) {
-        this.scene.physics.add.collider(this, collider, callback, null, this);
+    addCollider(collider, callback, context) {
+        this.scene.physics.add.collider(this, collider, callback, null, context || this);
         
         return this;
     },
-    addOverlap(collider, callback) {
-        this.scene.physics.add.overlap(this, collider, callback, null, this);
+    addOverlap(collider, callback, context) {
+        this.scene.physics.add.overlap(this, collider, callback, null, context || this);
         
         return this;
     },

@@ -14,7 +14,7 @@ export const SHARED_CONFIG = {
         y: ((HEIGHT - (HEIGHT / ZOOM_FACTOR)) / 1.98),
     },
     topRightCorner: {
-        x: ((WIDTH / ZOOM_FACTOR) + ((WIDTH - (WIDTH / ZOOM_FACTOR)) / 2)),
+        x: ((WIDTH / ZOOM_FACTOR) + ((WIDTH - (WIDTH / ZOOM_FACTOR)) / 2)) * 0.8, 
         y: (HEIGHT- (HEIGHT / ZOOM_FACTOR)) / 2,
     }
 };
