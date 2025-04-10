@@ -48,6 +48,7 @@ export class Play extends Phaser.Scene {
                 platformsColliders: layers.platformsColliders,
                 projectiles: enemies.getProjectiles(),
                 collectables: collectables,
+                traps: layers.traps
             }
         });
 
@@ -76,6 +77,7 @@ export class Play extends Phaser.Scene {
         const platformsColliders = map.createLayer('platform_colliders', tileset);
         const environment = map.createLayer('environment', tileset).setDepth(-2);
         const platforms = map.createLayer('platforms', tileset);
+        const traps = map.createLayer('traps', tileset);
         
         const playerZones = map.getObjectLayer('player_zones');
         const enemySpawns = map.getObjectLayer('enemy_spawns');
@@ -85,6 +87,7 @@ export class Play extends Phaser.Scene {
 
         // After creating custom property for tiles used on the platformsColliders tile layer
         platformsColliders.setCollisionByProperty({ collides: true });
+        traps.setCollisionByExclusion(-1);
 
         return { 
             platformsColliders, 
@@ -94,6 +97,7 @@ export class Play extends Phaser.Scene {
             playerZones, 
             enemySpawns, 
             collectables, 
+            traps, 
         };
     }
 
@@ -114,6 +118,7 @@ export class Play extends Phaser.Scene {
         player
             .addCollider(colliders.platformsColliders)
             .addCollider(colliders.projectiles, this.onWeaponHit)
+            .addCollider(colliders.traps, () => {console.log("Hit Trap")})
             .addCollider(colliders.collectables, this.onCollect, this)
     }
 
