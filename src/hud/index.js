@@ -12,6 +12,7 @@ class Hud extends Phaser.GameObjects.Container {
         const { topRightCorner } = SHARED_CONFIG;
         this.setPosition(topRightCorner.x, topRightCorner.y);
         this.setScrollFactor(0);
+        this.setDepth(100);
 
         this.fontSize = 20;
         this.setupList();
@@ -30,18 +31,21 @@ class Hud extends Phaser.GameObjects.Container {
     }
 
     createScoreboard() {
-        const scoreText = this.scene.add.text(0, 0, '100', {fontSize: `${this.fontSize}px`, fill: '#fff'});
+        const scoreText = this.scene.add.text(0, 0, '0', {fontSize: `${this.fontSize}px`, fill: '#fff'});
         const scoreImage = this.scene.add.image(scoreText.width + 5, 0, 'diamond')
             .setOrigin(0)
             .setScale(1.3);
 
         const scoreBoard = this.scene.add.container(0, 0, [scoreText, scoreImage]);
+        scoreBoard.setName('scoreBoard');
 
         return scoreBoard;
     }
 
-    updateScoreboard() {
-
+    updateScoreboard(score) {
+        const [scoreText, scoreImage] = this.getByName('scoreBoard').list;
+        scoreText.setText(score);
+        scoreImage.setX(scoreText.width + 5);
     }
 }
 

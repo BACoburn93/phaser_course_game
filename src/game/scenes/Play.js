@@ -23,6 +23,7 @@ export class Play extends Phaser.Scene {
         this.cameras.main.setBackgroundColor('000');
         
         this.score = 0;
+        this.hud = new Hud(this, 0, 0);
 
         const map = this.createMap();
 
@@ -34,8 +35,6 @@ export class Play extends Phaser.Scene {
         const collectables = this.createCollectables(layers.collectables);
 
         const enemies = this.createEnemies(layers.enemySpawns, layers.platformsColliders);
-
-        new Hud(this, 0, 0);
 
         this.createEnemyColliders(enemies, {
             colliders: {
@@ -127,12 +126,9 @@ export class Play extends Phaser.Scene {
     }
 
     onCollect(entity, collectable) {
-        // disableGameObject -> deactivates object - default: false
-        // hideGameObject -> Hide game object. Default: false
         collectable.disableBody(true, true);
         this.score += collectable.score;
-
-        console.log(this.score);
+        this.hud.updateScoreboard(this.score);
     }
 
     createEnemyColliders(enemies, { colliders }) {
