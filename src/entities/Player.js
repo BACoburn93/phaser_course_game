@@ -186,14 +186,16 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     takesHit(source) {
+        const sourceDamage = source.damage || source.properties.damage || 0;
+
         if(this.hasBeenHit) { return; }
         this.hasBeenHit = true;
         this.bounceOff();
         const hitAnim = this.playDamageTween();
 
-        this.health -= source.damage;
-        this.hp.decrease(20);
-        source.deliversHit(this);
+        this.health -= sourceDamage;
+        this.hp.decrease(sourceDamage);
+        source.deliversHit && source.deliversHit(this);
 
         this.scene.time.delayedCall(1000, () => {
             this.hasBeenHit = false
