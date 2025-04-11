@@ -44,7 +44,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.meleeWeapon = new MeleeWeapon(this.scene, 0, 0, "sword-default");
         this.timeFromLastSwing = null;
 
-        this.health = 100;
+        this.health = 10;
 
         this.hp = new HealthBar(
             this.scene, 
@@ -70,7 +70,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
-        if(this.hasBeenHit || this.isProne) { return };
+        if(this.hasBeenHit || this.isProne || !this.body) { return };
 
         const { left, right, up, down, space } = this.cursors;
 
@@ -89,7 +89,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         const isJumpKeyDown = isArrOfKeysJustDown([space, up]);
 
         const onFloor = this.body.onFloor();
-
 
         if(left.isDown) {
             this.lastDirection = Phaser.Physics.Arcade.FACING_LEFT;

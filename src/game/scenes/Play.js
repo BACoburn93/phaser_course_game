@@ -20,7 +20,7 @@ export class Play extends Phaser.Scene {
         this.config = SHARED_CONFIG;
     }
 
-    create() {
+    create({gameStatus}) {
         this.cameras.main.setBackgroundColor('000');
         
         this.score = 0;
@@ -53,11 +53,13 @@ export class Play extends Phaser.Scene {
             }
         });
 
-        this.createGameEvents();
         this.createEndOfLevel(playerZones.end, player);
         this.setupFollowupCameraOn(player);
-
         this.plotting = false;
+
+        if(gameStatus === 'PLAYER_LOSE') return;
+
+        this.createGameEvents();
 
     }
 
@@ -105,7 +107,9 @@ export class Play extends Phaser.Scene {
 
     createGameEvents() {
         EventEmitter.on('PLAYER_LOSE', () => {
-            alert("Player has lost the game!")
+            this.scene.restart({
+                gameStatus: 'PLAYER_LOSE'
+            });
         })
     }
 
