@@ -70,13 +70,21 @@ export class Play extends Phaser.Scene {
         this.add.tileSprite(bgObj.x, bgObj.y, SHARED_CONFIG.width, bgObj.height, 'bg-spikes-dark')
             .setOrigin(0, 1)
             .setDepth(-1000)
-            .setScrollFactor(0.1, 0.95)
+            .setScrollFactor(0.1, 0.95);
+
+        this.add.tileSprite(0, 0, SHARED_CONFIG.width, 270, 'sky-play')
+            .setOrigin(0, 0)
+            .setScale(1.1)
+            .setDepth(-2000)
+            .setScrollFactor(0, 1);
+
     }
 
     createMap() {
         const map = this.make.tilemap({key: 'map'});
 
         map.addTilesetImage('main_lev_build_1', 'tiles-1');
+        map.addTilesetImage('bg_spikes_tileset.png', 'bg-spikes-tileset');
         // map.addTilesetImage('main_lev_build_2', 'tiles-2');
 
         return map;
@@ -84,9 +92,10 @@ export class Play extends Phaser.Scene {
 
     createLayers(map) {
         const tileset = map.getTileset('main_lev_build_1');
-        // const tilesetBg = map.getTileset('Michael');
+        const tilesetBg = map.getTileset('bg_spikes_tileset');
+        
+        map.createLayer('distance', tilesetBg);
 
-        // const background = map.createLayer('background', tilesetBg).setDepth(-999);
         const platformsColliders = map.createLayer('platform_colliders', tileset);
         const environment = map.createLayer('environment', tileset).setDepth(-2);
         const platforms = map.createLayer('platforms', tileset);

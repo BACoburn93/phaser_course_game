@@ -36,7 +36,10 @@ export class Preloader extends Scene
 
         this.load.image('tiles-1', 'main_lev_build_1.png');
         this.load.image('tiles-2', 'main_lev_build_2.png');
+        this.load.image('bg-spikes-tileset', 'bg_spikes_tileset.png');
+
         this.load.image('bg-spikes-dark', 'bg_spikes_dark.png');
+        this.load.image('sky-play', 'sky_play.png');
 
         this.load.image('iceball-1', 'weapons/iceball_001.png');
         this.load.image('iceball-2', 'weapons/iceball_002.png');
