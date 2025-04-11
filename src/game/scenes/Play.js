@@ -35,6 +35,8 @@ export class Play extends Phaser.Scene {
         const player = this.createPlayer(playerZones.start);
         const collectables = this.createCollectables(layers.collectables);
 
+        this.createBG(map);
+
         const enemies = this.createEnemies(layers.enemySpawns, layers.platformsColliders);
 
         this.createEnemyColliders(enemies, {
@@ -63,21 +65,28 @@ export class Play extends Phaser.Scene {
 
     }
 
+    createBG(map) {
+        const bgObj = map.getObjectLayer('distance_bg').objects[0];
+        this.add.tileSprite(bgObj.x, bgObj.y, SHARED_CONFIG.width, bgObj.height, 'bg-spikes-dark')
+            .setOrigin(0, 1)
+            .setDepth(-1000)
+            .setScrollFactor(0.1, 0.95)
+    }
+
     createMap() {
         const map = this.make.tilemap({key: 'map'});
 
         map.addTilesetImage('main_lev_build_1', 'tiles-1');
         // map.addTilesetImage('main_lev_build_2', 'tiles-2');
-        map.addTilesetImage('Michael', 'tiles-3');
 
         return map;
     }
 
     createLayers(map) {
         const tileset = map.getTileset('main_lev_build_1');
-        const tilesetBg = map.getTileset('Michael');
+        // const tilesetBg = map.getTileset('Michael');
 
-        const background = map.createLayer('background', tilesetBg).setDepth(-999);
+        // const background = map.createLayer('background', tilesetBg).setDepth(-999);
         const platformsColliders = map.createLayer('platform_colliders', tileset);
         const environment = map.createLayer('environment', tileset).setDepth(-2);
         const platforms = map.createLayer('platforms', tileset);
@@ -97,7 +106,7 @@ export class Play extends Phaser.Scene {
             platformsColliders, 
             environment, 
             platforms, 
-            background, 
+            // background, 
             playerZones, 
             enemySpawns, 
             collectables, 
