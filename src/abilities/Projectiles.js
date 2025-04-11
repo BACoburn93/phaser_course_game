@@ -27,7 +27,7 @@ class Projectiles extends Phaser.Physics.Arcade.Group {
             this.timeFromLastProjectile + projectile.cooldown > getTimestamp()) { return; }
  
         const center = initiator.getCenter();
-        let centerX;
+        let centerX = center.x;
 
         switch(initiator.lastDirection) {
             case initiator.lastDirection = Phaser.Physics.Arcade.FACING_RIGHT:
