@@ -67,12 +67,12 @@ export class Play extends Phaser.Scene {
 
     createBG(map) {
         const bgObj = map.getObjectLayer('distance_bg').objects[0];
-        this.add.tileSprite(bgObj.x, bgObj.y, SHARED_CONFIG.width, bgObj.height, 'bg-spikes-dark')
+        this.spikesImage = this.add.tileSprite(bgObj.x, bgObj.y, SHARED_CONFIG.width, bgObj.height, 'bg-spikes-dark')
             .setOrigin(0, 1)
             .setDepth(-1000)
-            .setScrollFactor(0.1, 1);
+            .setScrollFactor(0, 1);
 
-        this.add.tileSprite(0, 0, SHARED_CONFIG.width, 270, 'sky-play')
+        this.skyImage = this.add.tileSprite(0, 0, SHARED_CONFIG.width, 270, 'sky-play')
             .setOrigin(0, 0)
             .setScale(1.1)
             .setDepth(-2000)
@@ -81,7 +81,7 @@ export class Play extends Phaser.Scene {
     }
 
     createMap() {
-        const map = this.make.tilemap({key: 'map'});
+        const map = this.make.tilemap({key: `level_${this.getCurrentLevel()}`});
 
         map.addTilesetImage('main_lev_build_1', 'tiles-1');
         map.addTilesetImage('bg_spikes_tileset.png', 'bg-spikes-tileset');
@@ -192,6 +192,10 @@ export class Play extends Phaser.Scene {
         }
     }
 
+    getCurrentLevel() {
+        return this.registry.get('level') || 1;
+    }
+
     createEnemies(enemySpawnsPoints, platformColliders) {
         const enemies = new Enemies(this);
         const enemyTypes = enemies.getTypes();
@@ -217,12 +221,18 @@ export class Play extends Phaser.Scene {
 
             const eolOverlap = this.physics.add.overlap(player, endOfLevel, () => {
                 eolOverlap.active = false;
-                console.log("Player has won!");
+                this.registry.inc('level', 1);
+                this.scene.restart({gameStatus: 'LEVEL_COMPLETED'});
             });
     }
      
     changeScene ()
     {
         this.scene.start('GameOver');
+    }
+
+    update() {
+        this.spikesImage.tilePositionX = this.cameras.main.scrollX * 0.4;
+        this.skyImage.tilePositionX = this.cameras.main.scrollX * 0.1;
     }
 }
