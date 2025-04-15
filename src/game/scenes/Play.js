@@ -158,6 +158,13 @@ export class Play extends Phaser.Scene {
     }
 
     onHit(entity, source) {
+        if (entity.hasBeenHit) {
+            if (source && source.active) {
+                source.destroy(); 
+            }
+            return;
+        }
+    
         entity.takesHit(source);
     }
 
