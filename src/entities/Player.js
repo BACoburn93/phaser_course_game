@@ -44,7 +44,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.meleeWeapon = new MeleeWeapon(this.scene, 0, 0, "sword-default");
         this.timeFromLastSwing = null;
 
-        this.health = 50;
+        this.health = 300;
 
         this.hp = new HealthBar(
             this.scene, 
@@ -63,6 +63,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.handleAttacks();
         this.handleMovements();
+        this.handleLevelChange();
     }
 
     initEvents() {
@@ -170,6 +171,17 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     }
 
+    handleLevelChange() {
+        this.scene.input.keyboard.on('keydown-ONE', () => {
+            this.scene.registry.set('level', 1);
+            this.scene.scene.restart({gameStatus: 'LEVEL_COMPLETED'});
+        });
+        this.scene.input.keyboard.on('keydown-TWO', () => {
+            this.scene.registry.set('level', 2);
+            this.scene.scene.restart({gameStatus: 'LEVEL_COMPLETED'});
+        });
+    }
+
     playDamageTween() {
         return this.scene.tweens.add({
             targets: this,
@@ -221,8 +233,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.hp.decrease(sourceDamage);
 
         source.deliversHit && source.deliversHit(this);
-
-
 
         this.scene.time.delayedCall(1000, () => {
             this.hasBeenHit = false
