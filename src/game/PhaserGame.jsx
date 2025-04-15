@@ -50,11 +50,11 @@ export const PhaserGame = forwardRef(function PhaserGame ({ currentActiveScene, 
         }
         
     }, [currentActiveScene, ref])
+    
 
     return (
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <div id="game-container" style={{margin: '100px'}}></div>
-            <button className={'button'} style={{width: '120px'}} onClick={changeScene}>NEXT SCENE</button>
         </div>
         
     );

@@ -168,6 +168,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.setOffset(0, 0);
             this.isProne = false;
         })
+        
+        this.scene.input.keyboard.on('keyup-C', () => {
+            console.log(SHARED_CONFIG);
+        })
 
     }
 

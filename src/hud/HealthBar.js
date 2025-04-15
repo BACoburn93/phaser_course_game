@@ -6,10 +6,12 @@ class HealthBar {
     constructor(scene, x, y, health) {
         this.bar = new Phaser.GameObjects.Graphics(scene);
 
+        // Lock to screen
         this.bar.setScrollFactor(0, 0);
 
-        this.x = x;
-        this.y = y;
+        // Position the graphics object directly
+        this.bar.setPosition(x, y);
+
         this.value = health;
 
         this.size = {
@@ -20,43 +22,39 @@ class HealthBar {
         this.pixelPerHealth = this.size.width / this.value;
 
         scene.add.existing(this.bar);
-        this.draw(this.x, this.y);
+        this.draw();
     }
 
     decrease(amount) {
-        this.value -= amount;
-        this.draw(this.x, this.y);
+        this.value = Math.max(0, this.value - amount);
+        this.draw();
     }
 
-    draw(x, y) {
+    draw() {
         this.bar.clear();
-        const { width, height } = this.size;
 
         const margin = 2 / SHARED_CONFIG.zoomFactor;
+        const { width, height } = this.size;
 
         this.bar.fillStyle(0x9B00FF);
-        this.bar.fillRect(x, y, width + margin, height + margin);
+        this.bar.fillRect(0, 0, width + margin, height + margin);
 
         this.bar.fillStyle(0xFFFFFF);
-        this.bar.fillRect(x + margin, y + margin, width - margin, height - margin);
+        this.bar.fillRect(margin, margin, width - margin, height - margin);
 
         const healthWidth = Math.floor(this.value * this.pixelPerHealth);
 
-        switch(healthWidth > 0) {
-            case healthWidth <= this.size.width / 4:
+        if (healthWidth > 0) {
+            if (healthWidth <= width / 4) {
                 this.bar.fillStyle(0xFF0000);
-                break;
-            case healthWidth <= this.size.width / 2:
+            } else if (healthWidth <= width / 2) {
                 this.bar.fillStyle(0xFFFF00);
-                break;
-            default:
+            } else {
                 this.bar.fillStyle(0x00FF00);
-        }
+            }
 
-        if(healthWidth > 0) {
-            this.bar.fillRect(x + margin, y + margin, healthWidth - margin, height - margin);
+            this.bar.fillRect(margin, margin, healthWidth - margin, height - margin);
         }
-        
     }
 }
 

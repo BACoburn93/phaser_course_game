@@ -42,6 +42,8 @@ export class Preloader extends Scene
         this.load.image('bg-spikes-dark', 'bg_spikes_dark.png');
         this.load.image('sky-play', 'sky_play.png');
 
+        this.load.image('menu-bg', 'background01.png');
+
         this.load.image('iceball-1', 'weapons/iceball_001.png');
         this.load.image('iceball-2', 'weapons/iceball_002.png');
 
@@ -98,7 +100,7 @@ export class Preloader extends Scene
 
     startScene() {
         this.registry.set('level', 1);
-        this.scene.start('Play');
+        this.scene.start('MenuScene');
     }
 
     // create ()

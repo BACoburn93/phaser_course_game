@@ -3,6 +3,7 @@ import Phaser from 'phaser';
 import { Boot } from './scenes/Boot';
 import { Game } from './scenes/Game';
 import { GameOver } from './scenes/GameOver';
+import MenuScene from './scenes/Menu';
 import { MainMenu } from './scenes/MainMenu';
 import { Play } from './scenes/Play';
 import { Preloader } from './scenes/Preloader';
@@ -20,6 +21,7 @@ const HEIGHT = 640;
 const Scenes = [
     Boot,
     Preloader,
+    MenuScene,
     MainMenu,
     Game,
     Play,
