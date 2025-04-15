@@ -55,6 +55,7 @@ export class Play extends Phaser.Scene {
             }
         });
 
+        this.createBackButton();
         this.createEndOfLevel(playerZones.end, player);
         this.setupFollowupCameraOn(player);
         this.plotting = false;
@@ -78,6 +79,20 @@ export class Play extends Phaser.Scene {
             .setDepth(-2000)
             .setScrollFactor(0, 1);
 
+    }
+
+    createBackButton() {
+        const { bottomRightCorner } = SHARED_CONFIG;
+
+        const btn = this.add.image(bottomRightCorner.x - 30, bottomRightCorner.y - 10, 'back')
+            .setOrigin(1)
+            .setScrollFactor(0)
+            .setScale(1.2)
+            .setInteractive()
+
+        btn.on('pointerup', () => {
+            this.scene.start('MenuScene');
+        })
     }
 
     createMap() {
@@ -229,6 +244,7 @@ export class Play extends Phaser.Scene {
             const eolOverlap = this.physics.add.overlap(player, endOfLevel, () => {
                 eolOverlap.active = false;
                 this.registry.inc('level', 1);
+                this.registry.inc('unlocked-levels', 1);
                 this.scene.restart({gameStatus: 'LEVEL_COMPLETED'});
             });
     }

@@ -1,6 +1,6 @@
-// const MAP_WIDTH = 1600;
+const MAP_WIDTH = 1600;
 const WIDTH = window.innerWidth;
-const HEIGHT = window.innerHeight;
+const HEIGHT = Math.min(640, window.innerHeight);
 const ZOOM_FACTOR = 2;
 
 const zoomedWidth = WIDTH / ZOOM_FACTOR;
@@ -10,8 +10,9 @@ const offsetX = (WIDTH - zoomedWidth) / 1.9;
 const offsetY = (HEIGHT - zoomedHeight) / 1.9;
 
 export const SHARED_CONFIG = {
-    mapOffset: 100,
-    width: WIDTH,
+    canGoBack: false,
+    mapOffset: 0,
+    width: MAP_WIDTH < WIDTH ? MAP_WIDTH : WIDTH,
     height: HEIGHT,
     zoomFactor: ZOOM_FACTOR,
     debug: false,
@@ -24,5 +25,10 @@ export const SHARED_CONFIG = {
     topRightCorner: {
         x: offsetX + zoomedWidth,
         y: offsetY,
+    },
+
+    bottomRightCorner: {
+        x: offsetX + zoomedWidth,
+        y: offsetY + zoomedHeight,
     },
 };
