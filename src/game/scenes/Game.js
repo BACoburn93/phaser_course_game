@@ -30,15 +30,6 @@ export class Game extends Scene
 
     changeScene ()
     {
-        this.scene.start('Play', 
-        // {
-        //     config: {
-        //         height: 640,
-        //         width: 1600,
-        //         mapOffset: 100,
-        //         zoomFactor: 1.5,
-        //     }
-        // }
-    );
+        this.scene.start('Play');
     }
 }

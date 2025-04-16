@@ -142,7 +142,7 @@ export class Play extends Phaser.Scene {
 
     createGameEvents() {
         EventEmitter.on('PLAYER_LOSE', () => {
-            playerScore.total = 0;
+            // playerScore.total = 0;
             this.registry.set('level', 1);
             this.scene.restart({
                 gameStatus: 'PLAYER_LOSE'
@@ -166,8 +166,8 @@ export class Play extends Phaser.Scene {
     createPlayerColliders(player, { colliders }) {
         player
             .addCollider(colliders.platformsColliders)
-            .addCollider(colliders.projectiles, this.onHit)
-            .addCollider(colliders.traps, this.onHit)
+            // .addCollider(colliders.projectiles, this.onHit)
+            // .addCollider(colliders.traps, this.onHit)
             .addCollider(colliders.collectables, this.onCollect, this)
     }
 
@@ -196,7 +196,7 @@ export class Play extends Phaser.Scene {
     createEnemyColliders(enemies, { colliders }) {
         enemies
             .addCollider(colliders.platformsColliders)
-            .addCollider(colliders.player, this.onPlayerCollision)
+            // .addCollider(colliders.player, this.onPlayerCollision)
             .addCollider(colliders.player.projectiles, this.onHit)
             .addOverlap(colliders.player.meleeWeapon, this.onHit)
     }
@@ -226,12 +226,10 @@ export class Play extends Phaser.Scene {
         const enemies = new Enemies(this);
         const enemyTypes = enemies.getTypes();
         
-        enemySpawnsPoints.objects.forEach((spawnPoint, idx) => {
-            // if(idx === 0) {
+        enemySpawnsPoints.objects.forEach((spawnPoint) => {
                 const enemy = new enemyTypes[spawnPoint.type](this, spawnPoint.x, spawnPoint.y);
                 enemy.setPlatformColliders(platformColliders);
                 enemies.add(enemy);
-            // }
 
         })
 

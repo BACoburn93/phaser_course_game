@@ -18,13 +18,21 @@ class CreditsScene extends BaseScene {
     ]
   }
 
-  create() {
-    super.create();
+    init() {
+        console.log(playerScore.total);
+    }
 
-    this.createMenu(this.menu, () => {
+    create() {
+        super.create();
         
-    });
-  }
+        this.menu = [
+            {scene: null, text: 'Thanks for playing!!! :)'},
+            {scene: null, text: `Total Score: ${playerScore.total}`}, 
+            {scene: null, text: 'Author: Brandon'},
+        ];
+        
+        this.createMenu(this.menu, () => { });
+        }
 
 }
 

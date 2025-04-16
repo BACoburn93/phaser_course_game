@@ -48,7 +48,7 @@ class Snaky extends Enemy {
     }
 
     getAttackDelay() {
-        return Phaser.Math.Between(500, 1000);
+        return Phaser.Math.Between(2000, 4000);
     }
 
     takesHit(source) {
