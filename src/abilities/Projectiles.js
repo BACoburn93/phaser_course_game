@@ -43,6 +43,7 @@ class Projectiles extends Phaser.Physics.Arcade.Group {
         }
 
         projectile.fire(centerX, center.y, anim);
+        initiator.projectileSound && initiator.projectileSound.play();
         this.timeFromLastProjectile = getTimestamp();
     }
 }

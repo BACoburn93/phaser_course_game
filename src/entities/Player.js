@@ -39,6 +39,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.offsetY = 5;
         this.cursors = this.scene.input.keyboard.createCursorKeys();
 
+        this.jumpSound = this.scene.sound.add('jump', {volume: 0.2});
+        this.projectileSound = this.scene.sound.add('projectile-launch', {volume: 0.2});
+        this.stepSound = this.scene.sound.add('step', {volume: 0.2});
+        this.swipeSound = this.scene.sound.add('swipe', {volume: 0.2});
+
         this.lastDirection = Phaser.Physics.Arcade.FACING_RIGHT;
         this.projectiles = new Projectiles(this.scene, 'iceball');
         this.meleeWeapon = new MeleeWeapon(this.scene, 0, 0, "sword-default");
@@ -96,10 +101,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         const onFloor = this.body.onFloor();
 
         if(left.isDown) {
+            // this.stepSound.play();
             this.lastDirection = Phaser.Physics.Arcade.FACING_LEFT;
             this.setVelocityX(-this.playerSpeed);
             this.setFlipX(true);
         } else if (right.isDown) {
+            // this.stepSound.play();
             this.lastDirection = Phaser.Physics.Arcade.FACING_RIGHT;
             this.setVelocityX(this.playerSpeed);
             this.setFlipX(false);
@@ -108,6 +115,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         if((isJumpKeyDown) && (onFloor || this.jumpCount < this.consecutiveJumps)) {
+            this.jumpSound.play();
             this.setVelocityY(-this.playerSpeed * 1.5);
             this.jumpCount++;
         }
@@ -139,12 +147,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         })
 
         this.scene.input.keyboard.on('keydown-E', () => {
-
             if(this.timeFromLastSwing &&
                 this.timeFromLastSwing + this.meleeWeapon.attackSpeed > getTimestamp()) {
                 return;
             }
 
+            this.swipeSound.play();
             this.play('throw', true);
             this.meleeWeapon.swing(this);
             this.timeFromLastSwing = getTimestamp();
