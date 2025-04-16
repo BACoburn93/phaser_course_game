@@ -8,6 +8,7 @@ import { MainMenu } from './scenes/MainMenu';
 import { Play } from './scenes/Play';
 import MenuScene from './scenes/Menu';
 import LevelScene from './scenes/Levels';
+import CreditsScene from './scenes/Credits';
 
 import { Preloader } from './scenes/Preloader';
 
@@ -30,6 +31,7 @@ const Scenes = [
     Game,
     Play,
     GameOver,
+    CreditsScene,
 ];
 // const createScene = Scene => new Scene(SHARED_CONFIG);
 // const initScenes = () => {

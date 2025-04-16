@@ -11,8 +11,8 @@ const offsetY = (HEIGHT - zoomedHeight) / 1.9;
 
 export const SHARED_CONFIG = {
     canGoBack: false,
-    mapOffset: MAP_WIDTH > WIDTH ? MAP_WIDTH - WIDTH : 0,
-    width: MAP_WIDTH < WIDTH ? MAP_WIDTH : WIDTH,
+    mapOffset: MAP_WIDTH < WIDTH ? MAP_WIDTH - WIDTH : 0,
+    width: WIDTH,
     height: HEIGHT,
     zoomFactor: ZOOM_FACTOR,
     debug: false,
@@ -31,4 +31,5 @@ export const SHARED_CONFIG = {
         x: offsetX + zoomedWidth,
         y: offsetY + zoomedHeight,
     },
+    lastLevel: 2,
 };

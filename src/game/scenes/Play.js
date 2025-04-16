@@ -7,6 +7,7 @@ import Hud from "../../hud";
 import EventEmitter from "../../events/Emitter.js"
 
 import { SHARED_CONFIG } from "../../globals/sharedConfig";
+import { playerScore } from "../../globals/score.js";
 
 import initAnims from "../../anims";
 
@@ -23,7 +24,7 @@ export class Play extends Phaser.Scene {
     create({gameStatus}) {
         this.cameras.main.setBackgroundColor('000');
         
-        this.score = 0;
+        this.score = playerScore.total;
         this.hud = new Hud(this, 0, 0);
 
         const map = this.createMap();
@@ -186,7 +187,8 @@ export class Play extends Phaser.Scene {
     onCollect(entity, collectable) {
         collectable.disableBody(true, true);
         this.score += collectable.score;
-        this.hud.updateScoreboard(this.score);
+        playerScore.total = this.score;
+        this.hud.updateScoreboard(playerScore.total);
     }
 
     createEnemyColliders(enemies, { colliders }) {
@@ -241,12 +243,18 @@ export class Play extends Phaser.Scene {
             .setSize(5, this.config.height)
             .setOrigin(0.5, 1);
 
-            const eolOverlap = this.physics.add.overlap(player, endOfLevel, () => {
-                eolOverlap.active = false;
-                this.registry.inc('level', 1);
-                this.registry.inc('unlocked-levels', 1);
-                this.scene.restart({gameStatus: 'LEVEL_COMPLETED'});
-            });
+        const eolOverlap = this.physics.add.overlap(player, endOfLevel, () => {
+            eolOverlap.active = false;
+
+            if(this.registry.get('level') === SHARED_CONFIG.lastLevel) {
+                this.scene.start('CreditsScene');
+                return;
+            }
+
+            this.registry.inc('level', 1);
+            this.registry.inc('unlocked-levels', 1);
+            this.scene.restart({gameStatus: 'LEVEL_COMPLETED'});
+        });
     }
      
     changeScene ()
