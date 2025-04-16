@@ -9,7 +9,8 @@ import { playerScore } from '../../globals/score';
 class CreditsScene extends BaseScene {
 
     constructor() {
-        super('CreditsScene', { ...SHARED_CONFIG, canGoBack: true});
+        super('CreditsScene');
+        this.config = { ...SHARED_CONFIG, canGoBack: true };
 
         this.menu = [
             {scene: null, text: 'Thanks for playing!!! :)'},

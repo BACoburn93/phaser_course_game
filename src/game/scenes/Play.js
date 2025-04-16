@@ -149,7 +149,6 @@ export class Play extends Phaser.Scene {
 
     createGameEvents() {
         EventEmitter.on('PLAYER_LOSE', () => {
-            // playerScore.total = 0;
             this.registry.set('level', 1);
             this.scene.restart({
                 gameStatus: 'PLAYER_LOSE'
@@ -255,6 +254,7 @@ export class Play extends Phaser.Scene {
             eolOverlap.active = false;
 
             if(this.registry.get('level') === SHARED_CONFIG.lastLevel) {
+                this.registry.set('level', 1);
                 this.scene.start('CreditsScene');
                 return;
             }
