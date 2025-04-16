@@ -68,6 +68,17 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.handleAttacks();
         this.handleMovements();
+
+        this.scene.time.addEvent({
+            delay: 500,
+            repeat: -1,
+            callbackScope: this,
+            callback: () => {
+                if(this.isPlayingAnims('run') && this.body.onFloor()) {
+                    this.stepSound.play();
+                }
+            }
+        })
     }
 
     initEvents() {
@@ -101,12 +112,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         const onFloor = this.body.onFloor();
 
         if(left.isDown) {
-            // this.stepSound.play();
             this.lastDirection = Phaser.Physics.Arcade.FACING_LEFT;
             this.setVelocityX(-this.playerSpeed);
             this.setFlipX(true);
         } else if (right.isDown) {
-            // this.stepSound.play();
             this.lastDirection = Phaser.Physics.Arcade.FACING_RIGHT;
             this.setVelocityX(this.playerSpeed);
             this.setFlipX(false);
