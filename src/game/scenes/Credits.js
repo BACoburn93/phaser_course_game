@@ -8,19 +8,16 @@ import { playerScore } from '../../globals/score';
 
 class CreditsScene extends BaseScene {
 
-  constructor() {
-    super('CreditsScene', { ...SHARED_CONFIG, canGoBack: true});
+    constructor() {
+        super('CreditsScene', { ...SHARED_CONFIG, canGoBack: true});
 
-    this.menu = [
-      {scene: null, text: 'Thanks for playing!!! :)'},
-      {scene: null, text: `Total Score: ${playerScore.total}`},
-      {scene: null, text: 'Author: Brandon'},
-    ]
-  }
-
-    init() {
-        console.log(playerScore.total);
+        this.menu = [
+            {scene: null, text: 'Thanks for playing!!! :)'},
+            {scene: null, text: `Total Score: ${playerScore.total}`},
+            {scene: null, text: 'Author: Brandon'},
+        ]
     }
+
 
     create() {
         super.create();
@@ -32,7 +29,7 @@ class CreditsScene extends BaseScene {
         ];
         
         this.createMenu(this.menu, () => { });
-        }
+    }
 
 }
 

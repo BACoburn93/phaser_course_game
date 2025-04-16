@@ -92,6 +92,8 @@ export class Preloader extends Scene
         this.load.once('complete', () => {
             this.startScene();
         });
+
+        this.load.audio('theme', 'music/theme_music.wav');
         
         // Default Phaser App Asset Loaders
         // this.load.image('bg', 'bg.png');

@@ -9,12 +9,12 @@ class LevelScene extends BaseScene {
     super('LevelScene');
 
     this.config = {...SHARED_CONFIG, canGoBack: true}
-
-
   }
 
   create() {
     super.create();
+
+    this.config = {...SHARED_CONFIG, canGoBack: true}
 
     this.menu = [];
     const unlockedLevels = this.registry.get('unlocked-levels');
@@ -41,7 +41,6 @@ class LevelScene extends BaseScene {
     })
 
     textGO.on('pointerup', () => {
-      
 
       if(menuItem.scene) {
         this.registry.set('level', menuItem.level);

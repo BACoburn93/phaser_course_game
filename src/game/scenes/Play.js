@@ -27,6 +27,8 @@ export class Play extends Phaser.Scene {
         this.score = playerScore.total;
         this.hud = new Hud(this, 0, 0);
 
+        this.playBgMusic();
+
         const map = this.createMap();
 
         initAnims(this.anims);
@@ -82,6 +84,12 @@ export class Play extends Phaser.Scene {
 
     }
 
+    playBgMusic() {
+        if(this.sound.get('theme')) return;
+        
+        this.sound.add('theme', { loop: true, volume: 0.3}).play();
+    }
+
     createBackButton() {
         const { bottomRightCorner } = SHARED_CONFIG;
 
@@ -92,6 +100,7 @@ export class Play extends Phaser.Scene {
             .setInteractive()
 
         btn.on('pointerup', () => {
+            playerScore.total = 0;
             this.scene.start('MenuScene');
         })
     }
@@ -111,8 +120,6 @@ export class Play extends Phaser.Scene {
         const tilesetBg = map.getTileset('bg_spikes_tileset.png');
 
         map.createLayer('distance', tilesetBg).setDepth(-12);
-
-        console.log(map);
 
         const platformsColliders = map.createLayer('platform_colliders', tileset);
         const environment = map.createLayer('environment', tileset).setDepth(-2);
