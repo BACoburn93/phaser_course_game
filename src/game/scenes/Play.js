@@ -166,8 +166,8 @@ export class Play extends Phaser.Scene {
     createPlayerColliders(player, { colliders }) {
         player
             .addCollider(colliders.platformsColliders)
-            // .addCollider(colliders.projectiles, this.onHit)
-            // .addCollider(colliders.traps, this.onHit)
+            .addCollider(colliders.projectiles, this.onHit)
+            .addCollider(colliders.traps, this.onHit)
             .addCollider(colliders.collectables, this.onCollect, this)
     }
 
@@ -196,7 +196,7 @@ export class Play extends Phaser.Scene {
     createEnemyColliders(enemies, { colliders }) {
         enemies
             .addCollider(colliders.platformsColliders)
-            // .addCollider(colliders.player, this.onPlayerCollision)
+            .addCollider(colliders.player, this.onPlayerCollision)
             .addCollider(colliders.player.projectiles, this.onHit)
             .addOverlap(colliders.player.meleeWeapon, this.onHit)
     }
