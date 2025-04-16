@@ -63,7 +63,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.handleAttacks();
         this.handleMovements();
-        this.handleLevelChange();
     }
 
     initEvents() {
@@ -173,17 +172,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             console.log(SHARED_CONFIG);
         })
 
-    }
-
-    handleLevelChange() {
-        this.scene.input.keyboard.on('keydown-ONE', () => {
-            this.scene.registry.set('level', 1);
-            this.scene.scene.restart({gameStatus: 'LEVEL_COMPLETED'});
-        });
-        this.scene.input.keyboard.on('keydown-TWO', () => {
-            this.scene.registry.set('level', 2);
-            this.scene.scene.restart({gameStatus: 'LEVEL_COMPLETED'});
-        });
     }
 
     playDamageTween() {

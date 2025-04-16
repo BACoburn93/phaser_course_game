@@ -142,6 +142,8 @@ export class Play extends Phaser.Scene {
 
     createGameEvents() {
         EventEmitter.on('PLAYER_LOSE', () => {
+            playerScore.total = 0;
+            this.registry.set('level', 1);
             this.scene.restart({
                 gameStatus: 'PLAYER_LOSE'
             });
